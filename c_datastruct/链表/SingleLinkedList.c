@@ -30,6 +30,73 @@ void InsertEnd(Node** head,int data){
         current->next = newNode;
     }
 }
+//尾部删除
+void DeleteEnd(Node** list){
+    Node* cur = *list;
+    Node* prev = NULL;
+    if(cur->next == NULL){
+        free(cur);
+        *list = NULL;
+    }else{
+        while (cur->next != NULL)
+        {
+            prev = cur;
+            cur = cur->next;
+        }
+        free(cur);
+        prev->next = NULL;   
+    }
+ 
+}
+//链表头部插入
+void InsertFront(Node** list,int data){
+    Node* newNode = CreateNode(data);
+    if((*list) == NULL){
+        newNode = *list;
+    }else{
+        newNode->next = *list;
+        *list = newNode;
+    }
+}
+//链表头部删除
+void DeleteFront(Node** list){
+    Node* cur = *list;
+    if(cur->next == NULL){
+        free(cur);
+        *list = NULL;
+    }else{
+        cur = cur->next;
+        free(*list);
+        *list = cur;
+    }
+}
+//单链表的查找
+bool Find(Node* list,int data){
+    while(list != NULL){
+        if(list->data == data) return true;
+        list = list->next;
+    }
+    return false;
+}
+//在pos位置插入数据
+void InsertAfter(Node* pos,int data){
+    Node* newNode = CreateNode(data);
+    newNode->next = pos->next;
+    pos->next = newNode;
+}
+//在pos位置之后的数据的删除
+void DeleteAfter(Node* pos){
+    if(pos->next == NULL){
+        printf("后面没有数据\n");
+        return;
+    }else{
+        Node* prev = pos;
+        Node* cur = pos->next;
+        prev->next = cur->next;
+        free(cur);
+        cur = NULL;
+    }
+}
 // 遍历链表并打印节点数据
 void printList(Node* head) {
     Node* current = head;
@@ -39,10 +106,16 @@ void printList(Node* head) {
     }
     printf("\n");
 }
-
 int main(void){
     Node* head = NULL;
     InsertEnd(&head,5);
     InsertEnd(&head,6);
+    //DeleteEnd(&head);
+    InsertFront(&head,2);
+    DeleteFront(&head);
+    InsertAfter(head,9);
+    DeleteAfter(head);
     printList(head);
+    // bool n = Find(head,7);
+    // printf("%d",n);
 }
